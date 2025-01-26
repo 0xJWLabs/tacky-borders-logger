@@ -8,7 +8,7 @@ readme = "README.md"
 homepage = "https://github.com/0xJWLabs/tacky-borders-logger"
 repository = "https://github.com/0xJWLabs/tacky-borders-logger"
 documentation = "https://docs.rs/tacky-borders-logger"
-categories = ["logging", "macros", "debugging", "development-tools::debugging"]
+categories = ["development-tools::debugging"]
 keywords = ["logging"]
 authors = ["0xJWLabs <0xJWLabs@gmail.com>"]
 
