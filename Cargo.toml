@@ -2,6 +2,15 @@
 name = "tacky-borders-logger"
 version = "0.1.0"
 edition = "2024"
+description = "A Rust library for logging messages at various levels (trace, debug, info, warn, error), dynamically including the function name for better context in tracing and debugging."
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/0xJWLabs/tacky-borders-logger"
+repository = "https://github.com/0xJWLabs/tacky-borders-logger"
+documentation = "https://docs.rs/tacky-borders-logger"
+categories = ["logging", "macros", "debugging", "development-tools::debugging"]
+keywords = ["logging"]
+authors = ["0xJWLabs <0xJWLabs@gmail.com>"]
 
 [dependencies]
 log = "0.4.25"

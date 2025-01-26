@@ -1,3 +1,5 @@
+//! # Tacky Borders Logger
+//!
 //! This module provides macros for logging messages at different levels (debug, info, warn, error).
 //! Each macro dynamically includes the function name where it is invoked. These macros are useful for
 //! logging contextual information along with formatted messages, and they automatically capture the
@@ -10,6 +12,7 @@
 //!
 //! The macros can be used to log messages at different severity levels:
 //!
+//! - `trace!` - Logs detailed, low-level information for tracing program execution. Typically used for understanding the flow of execution, especially for debugging intricate issues. This log level provides the most granular level of detail, useful for tracking function calls, variable states, or intricate interactions between different parts of the program.
 //! - `debug!` - Logs detailed information, typically for development or debugging purposes.
 //! - `info!` - Logs general information messages.
 //! - `warn!` - Logs warnings about potential issues that aren't necessarily errors.
@@ -18,6 +21,7 @@
 //! # Example
 //! ```rust
 //! fn example_function() {
+//!     trace!("This is a trace message.");
 //!     debug!("This is a debug message.");
 //!     info!("This is an info message.");
 //!     warn!("This is a warning message.");
@@ -76,7 +80,7 @@ macro_rules! function_name {
 /// ```rust
 /// fn some_function() {
 ///     debug!("This is a debug message.");
-///     // Logs: "This is a debug message. at some_function"
+///     // Logs: "This is a debug message. [fn some_function]"
 /// }
 /// ```
 /// # Notes
@@ -86,7 +90,7 @@ macro_rules! function_name {
 macro_rules! debug {
     ($($arg:tt)+) => ({
         let fn_name = function_name!();
-        let formatted_message = format!("{} at {}", format_args!($($arg)*), fn_name);
+        let formatted_message = format!("{} [fn {}]", format_args!($($arg)*), fn_name);
         log::debug!("{}", formatted_message);
     });
 }
@@ -100,7 +104,7 @@ macro_rules! debug {
 /// ```rust
 /// fn example_function() {
 ///     info!("This is an info message.");
-///     // Logs: "This is an info message. at example_function"
+///     // Logs: "This is an info message. [fn example_function]"
 /// }
 /// ```
 /// # Notes
@@ -110,7 +114,7 @@ macro_rules! debug {
 macro_rules! info {
     ($($arg:tt)+) => ({
         let fn_name = function_name!();
-        let formatted_message = format!("{} at {}", format_args!($($arg)*), fn_name);
+        let formatted_message = format!("{} [fn {}]", format_args!($($arg)*), fn_name);
         log::info!("{}", formatted_message);
     });
 }
@@ -124,7 +128,7 @@ macro_rules! info {
 /// ```rust
 /// fn another_function() {
 ///     error!("An error occurred!");
-///     // Logs: "An error occurred! at another_function"
+///     // Logs: "An error occurred! [fn another_function]"
 /// }
 /// ```
 /// # Notes
@@ -133,7 +137,7 @@ macro_rules! info {
 macro_rules! error {
     ($($arg:tt)+) => ({
         let fn_name = function_name!();
-        let formatted_message = format!("{} at {}", format_args!($($arg)*), fn_name);
+        let formatted_message = format!("{} [fn {}]", format_args!($($arg)*), fn_name);
         log::error!("{}", formatted_message);
     });
 }
@@ -147,7 +151,7 @@ macro_rules! error {
 /// ```rust
 /// fn some_function() {
 ///     warn!("This is a warning message.");
-///     // Logs: "This is a warning message. at some_function"
+///     // Logs: "This is a warning message. [fn some_function]"
 /// }
 /// ```
 /// # Notes
@@ -157,7 +161,31 @@ macro_rules! error {
 macro_rules! warn {
     ($($arg:tt)+) => ({
         let fn_name = function_name!();
-        let formatted_message = format!("{} at {}", format_args!($($arg)*), fn_name);
+        let formatted_message = format!("{} [fn {}]", format_args!($($arg)*), fn_name);
         log::warn!("{}", formatted_message);
+    });
+}
+
+/// Macro to log trace-level messages with the current function name.
+///
+/// This macro logs a trace-level message with the name of the function
+/// where it is called. It can also include formatted arguments.
+///
+/// # Example
+/// ```rust
+/// fn any_function() {
+///     warn!("This is a trace message.");
+///     // Logs: "This is a trace message. [fn any_function]"
+/// }
+/// ```
+/// # Notes
+/// - This macro allows for logging traces while automatically appending
+///   the function name.
+#[macro_export]
+macro_rules! trace {
+    ($($arg:tt)+) => ({
+        let fn_name = function_name!();
+        let formatted_message = format!("{} at [fn {}]", format_args!($($arg)*), fn_name);
+        log::trace!("{}", formatted_message);
     });
 }

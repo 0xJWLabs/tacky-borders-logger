@@ -23,7 +23,7 @@ fn initialize_logger() -> anyhow::Result<()> {
     let config = config_builder.build();
 
     CombinedLogger::init(vec![TermLogger::new(
-        LevelFilter::Debug,
+        LevelFilter::Trace,
         config.clone(),
         TerminalMode::Mixed,
         ColorChoice::Auto,
@@ -49,6 +49,8 @@ fn main() {
     let size = 4_usize;
     let mut vec = Vec::with_capacity(size);
 
+    generate_custom_vec(&mut vec);
+    trace!("{vec:#?}");
     generate_custom_vec(&mut vec);
     debug!("{vec:#?}");
     generate_custom_vec(&mut vec);
